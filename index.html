@@ -98,6 +98,18 @@
       <li><b>The two diagnostics agree once reconciled:</b> ABC's coordinate-wise update is centroid-attracting, producing center clustering (GST) and mild discretization (BIAS toolbox) as two facets of one phenomenon.</li>
       <li><b>The perturbation range &phi; is the dominant control parameter;</b> population size and the limit parameter have negligible effect.</li>
     </ul>
+
+    <figure style="margin-top:28px;">
+      <object type="image/svg+xml" data="anim_scatter.svg" style="width:100%;max-width:760px;border:1px solid var(--line);border-radius:10px;">
+        <img src="anim_scatter.svg" alt="Population of ABC contracting toward the centre vs. Random Search staying uniform" style="width:100%;">
+      </object>
+      <figcaption>
+        <b>Structural bias, animated.</b> On the neutral landscape f0 (where the objective carries no
+        information), ABC's population steadily drifts toward the centre of the search space, while
+        Random Search remains uniformly spread. The contraction is the visual fingerprint of ABC's
+        mild center-directed bias.
+      </figcaption>
+    </figure>
   </section>
 
   <section id="results">
@@ -116,6 +128,18 @@
         <i>c</i>&nbsp;=&nbsp;(c,&hellip;,c) is varied across [0,100]<sup>30</sup>, shown for
         four budgets (log scale). At every budget the profile forms a symmetric U-shape
         with its minimum at the center (c&nbsp;=&nbsp;50).
+      </figcaption>
+    </figure>
+    <figure>
+      <object type="image/svg+xml" data="conv_static.svg" style="width:100%;max-width:680px;">
+        <img src="conv_static.svg" alt="Convergence curves by optimum location" style="width:100%;">
+      </object>
+      <figcaption>
+        Convergence (mean best-so-far, log scale) for each optimum location. The central
+        optimum (c&nbsp;=&nbsp;50) converges fastest and deepest; the symmetric interior pair
+        (c&nbsp;=&nbsp;25,&nbsp;75) tracks together in the middle; the corners
+        (c&nbsp;=&nbsp;0,&nbsp;100) converge slowest &mdash; the distance-from-centre ordering
+        predicted by a center bias.
       </figcaption>
     </figure>
   </section>
