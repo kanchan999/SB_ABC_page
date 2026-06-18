@@ -5,155 +5,226 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content="First systematic analysis of structural bias in the Artificial Bee Colony (ABC) algorithm using the BIAS toolbox and the Generalized Signature Test.">
 <title>Structural Bias in the Artificial Bee Colony Algorithm</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&display=swap" rel="stylesheet">
 <style>
   :root{
-    --ink:#1a1a1a; --muted:#5b6470; --line:#e6e8eb; --accent:#b5462f;
-    --accent-soft:#fbeeea; --bg:#ffffff; --card:#fafbfc; --max:880px;
+    --ink:#16202b; --muted:#5e6b78; --line:#e7eaee; --accent:#b5462f;
+    --accent2:#1565c0; --soft:#fbeee9; --bg:#ffffff; --card:#f7f9fb; --max:920px;
   }
   *{box-sizing:border-box;}
-  html{scroll-behavior:smooth;}
-  body{
-    margin:0; background:var(--bg); color:var(--ink);
-    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;
-    line-height:1.65; font-size:17px;
-  }
-  .wrap{max-width:var(--max); margin:0 auto; padding:0 22px;}
-  header.hero{padding:64px 0 36px; border-bottom:1px solid var(--line);}
-  .badge{display:inline-block; font-size:13px; letter-spacing:.04em; text-transform:uppercase;
-    color:var(--accent); background:var(--accent-soft); padding:5px 12px; border-radius:999px; font-weight:600;}
-  h1{font-size:34px; line-height:1.25; margin:18px 0 10px; font-weight:700; letter-spacing:-0.01em;}
-  .authors{font-size:17px; color:var(--ink); margin:8px 0 2px;}
-  .affil{font-size:15px; color:var(--muted); margin:0 0 22px;}
-  .links{display:flex; flex-wrap:wrap; gap:10px; margin-top:18px;}
-  .links a{
-    display:inline-flex; align-items:center; gap:7px; text-decoration:none;
-    border:1px solid var(--line); background:var(--card); color:var(--ink);
-    padding:9px 16px; border-radius:9px; font-size:15px; font-weight:560; transition:.15s;
-  }
-  .links a:hover{border-color:var(--accent); color:var(--accent); transform:translateY(-1px);}
-  section{padding:40px 0; border-bottom:1px solid var(--line);}
-  h2{font-size:23px; margin:0 0 16px; font-weight:700; letter-spacing:-0.01em;}
-  p{margin:0 0 16px; color:#23282e;}
-  .lead{font-size:18.5px;}
-  ul.findings{list-style:none; padding:0; margin:18px 0;}
-  ul.findings li{
-    position:relative; padding:14px 16px 14px 46px; margin-bottom:12px;
-    background:var(--card); border:1px solid var(--line); border-radius:10px;
-  }
-  ul.findings li b{color:var(--accent);}
-  ul.findings li::before{
-    content:""; position:absolute; left:18px; top:20px; width:9px; height:9px;
-    background:var(--accent); border-radius:50%;
-  }
-  figure{margin:24px 0; text-align:center;}
-  figure img{max-width:100%; height:auto; border:1px solid var(--line); border-radius:10px;}
-  figcaption{font-size:14px; color:var(--muted); margin-top:10px; text-align:left;}
-  pre{
-    background:#1e2228; color:#e8eaed; padding:18px 20px; border-radius:10px;
-    overflow-x:auto; font-size:13.5px; line-height:1.55;
-    font-family:ui-monospace,SFMono-Regular,Menlo,monospace;
-  }
-  .note{font-size:14.5px; color:var(--muted); background:var(--accent-soft);
-    border-left:3px solid var(--accent); padding:12px 16px; border-radius:0 8px 8px 0; margin:18px 0;}
-  footer{padding:34px 0 60px; color:var(--muted); font-size:14.5px;}
-  a.inline{color:var(--accent); text-decoration:none; border-bottom:1px solid var(--accent-soft);}
+  html{scroll-behavior:smooth; scroll-padding-top:70px;}
+  body{margin:0; background:var(--bg); color:var(--ink);
+    font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif; line-height:1.7; font-size:17px;}
+  .wrap{max-width:var(--max); margin:0 auto; padding:0 24px;}
+
+  /* sticky nav */
+  nav.top{position:sticky; top:0; z-index:50; background:rgba(255,255,255,.88);
+    backdrop-filter:saturate(180%) blur(12px); border-bottom:1px solid var(--line);}
+  nav.top .wrap{display:flex; align-items:center; justify-content:space-between; height:56px;}
+  nav .brand{font-weight:800; font-size:15px; letter-spacing:-.01em; color:var(--ink);}
+  nav .brand span{color:var(--accent);}
+  nav .navlinks{display:flex; gap:22px;}
+  nav .navlinks a{text-decoration:none; color:var(--muted); font-size:14.5px; font-weight:560; transition:.15s;}
+  nav .navlinks a:hover{color:var(--accent);}
+  @media(max-width:720px){ nav .navlinks{display:none;} }
+
+  /* hero */
+  header.hero{padding:70px 0 46px; background:
+    radial-gradient(1200px 400px at 50% -100px, var(--soft), transparent 70%);}
+  .pill{display:inline-block; font-size:12.5px; letter-spacing:.06em; text-transform:uppercase;
+    color:var(--accent); background:var(--soft); padding:6px 14px; border-radius:999px; font-weight:700;}
+  h1{font-family:'Newsreader',Georgia,serif; font-size:42px; line-height:1.18; margin:20px 0 14px;
+    font-weight:500; letter-spacing:-0.01em;}
+  .authors{font-size:17.5px; margin:6px 0 2px; font-weight:600;}
+  .affil{font-size:15px; color:var(--muted); margin:0 0 24px;}
+  .links{display:flex; flex-wrap:wrap; gap:11px;}
+  .links a{display:inline-flex; align-items:center; gap:7px; text-decoration:none;
+    border:1px solid var(--line); background:#fff; color:var(--ink);
+    padding:10px 18px; border-radius:10px; font-size:15px; font-weight:600; transition:.16s;
+    box-shadow:0 1px 2px rgba(20,30,40,.04);}
+  .links a:hover{border-color:var(--accent); color:var(--accent); transform:translateY(-1px);
+    box-shadow:0 6px 16px rgba(181,70,47,.12);}
+  .links a.primary{background:var(--accent); color:#fff; border-color:var(--accent);}
+  .links a.primary:hover{color:#fff; opacity:.92;}
+
+  section{padding:54px 0; border-top:1px solid var(--line);}
+  h2{font-family:'Newsreader',Georgia,serif; font-size:30px; margin:0 0 8px; font-weight:500; letter-spacing:-0.01em;}
+  .kicker{font-size:13px; letter-spacing:.08em; text-transform:uppercase; color:var(--accent); font-weight:700; margin-bottom:6px;}
+  p{margin:0 0 17px; color:#27313c;}
+  .lead{font-size:19px;}
+  a.inline{color:var(--accent); text-decoration:none; border-bottom:1px solid var(--soft);}
   a.inline:hover{border-bottom-color:var(--accent);}
-  @media(max-width:600px){ h1{font-size:27px;} body{font-size:16px;} header.hero{padding:44px 0 28px;} }
+
+  ul.findings{list-style:none; padding:0; margin:22px 0;}
+  ul.findings li{position:relative; padding:15px 18px 15px 50px; margin-bottom:13px;
+    background:var(--card); border:1px solid var(--line); border-radius:12px; font-size:16px;}
+  ul.findings li b{color:var(--accent);}
+  ul.findings li::before{content:counter(f); counter-increment:f; position:absolute; left:14px; top:13px;
+    width:24px; height:24px; background:var(--accent); color:#fff; border-radius:50%;
+    font-size:13px; font-weight:700; display:flex; align-items:center; justify-content:center;}
+  ol.findings-wrap{counter-reset:f; padding:0; margin:0; list-style:none;}
+
+  figure{margin:26px 0; text-align:center;}
+  figure img{max-width:100%; height:auto; border:1px solid var(--line); border-radius:12px; background:#fff;}
+  figcaption{font-size:14px; color:var(--muted); margin-top:11px; text-align:left; line-height:1.6;}
+  .twocol{display:grid; grid-template-columns:1fr 1fr; gap:20px;}
+  .twocol figure{margin:8px 0;}
+  @media(max-width:720px){ .twocol{grid-template-columns:1fr;} h1{font-size:32px;} }
+
+  pre{background:#10161d; color:#e9edf2; padding:18px 20px; border-radius:12px; overflow-x:auto;
+    font-size:13px; line-height:1.6; font-family:ui-monospace,SFMono-Regular,Menlo,monospace;}
+  .note{font-size:14.5px; color:#6a5043; background:var(--soft); border-left:3px solid var(--accent);
+    padding:13px 17px; border-radius:0 10px 10px 0; margin:20px 0;}
+  footer{padding:40px 0 70px; color:var(--muted); font-size:14.5px; border-top:1px solid var(--line);}
 </style>
 </head>
 <body>
-<div class="wrap">
 
-  <header class="hero">
-    <span class="badge">Structural Bias &middot; Metaheuristics</span>
-    <h1>Investigating Structural Bias in the Artificial&nbsp;Bee&nbsp;Colony Algorithm: A Systematic Analysis</h1>
-    <p class="authors">Kanchan Rajwar</p>
-    <p class="affil">Department of Mathematics, Indian Institute of Technology Roorkee, India</p>
-    <div class="links">
-      <a href="PAPER_PDF_URL">&#128196; Paper (PDF)</a>
-      <a href="https://github.com/kanchan999/SB_ABC">&#128187; Code</a>
-      <a href="#bibtex">&#10078; BibTeX</a>
-    </div>
-    <div class="note" style="margin-top:24px;">Manuscript currently under review. Links and citation will be updated on acceptance.</div>
-  </header>
+<nav class="top"><div class="wrap">
+  <div class="brand">Structural Bias in <span>ABC</span></div>
+  <div class="navlinks">
+    <a href="#overview">Overview</a>
+    <a href="#intro">Introducing Our Work</a>
+    <a href="#experiments">Experiments</a>
+    <a href="#conclusion">Conclusion</a>
+    <a href="#bibtex">BibTeX</a>
+  </div>
+</div></nav>
 
-  <section id="summary">
-    <h2>Overview</h2>
-    <p class="lead">
-      Since its introduction in 2005, the Artificial Bee Colony (ABC) algorithm has been
-      applied across countless optimization problems &mdash; yet its intrinsic search
-      dynamics have rarely been examined. This work provides the <b>first systematic
-      analysis of structural bias in ABC</b>, the tendency of an algorithm to favour
-      particular regions of the search space regardless of the objective.
-    </p>
-    <p>
-      Using two complementary diagnostics &mdash; the <b>BIAS toolbox</b> and the
-      <b>Generalized Signature Test (GST)</b> &mdash; we answer five research questions
-      about ABC's internal behaviour and benchmark it against GA, PSO, DE, and the
-      contemporary metaheuristics WOA, GWO, and HHO.
-    </p>
-    <ul class="findings">
-      <li><b>ABC shows only a minor center bias</b>, ranking second &mdash; just behind Differential Evolution &mdash; among eight algorithms in structural neutrality.</li>
-      <li><b>The bias emerges within the first ~10 iterations</b> and remains stable thereafter, driven largely by the scout-bee mechanism.</li>
-      <li><b>The two diagnostics agree once reconciled:</b> ABC's coordinate-wise update is centroid-attracting, producing center clustering (GST) and mild discretization (BIAS toolbox) as two facets of one phenomenon.</li>
-      <li><b>The perturbation range &phi; is the dominant control parameter;</b> population size and the limit parameter have negligible effect.</li>
-    </ul>
+<header class="hero"><div class="wrap">
+  <span class="pill">Metaheuristics &middot; Structural Bias</span>
+  <h1>Investigating Structural Bias in the Artificial Bee Colony Algorithm</h1>
+  <p class="authors">Kanchan Rajwar</p>
+  <p class="affil">Department of Mathematics, Indian Institute of Technology Roorkee, India</p>
+  <div class="links">
+    <a class="primary" href="PAPER_PDF_URL">&#128196;&nbsp; Paper</a>
+    <a href="https://github.com/kanchan999/SB_ABC">&#128187;&nbsp; Code</a>
+    <a href="#bibtex">&#10078;&nbsp; BibTeX</a>
+  </div>
+  <div class="note" style="margin-top:26px;">Manuscript under review. Links and citation will be finalized on acceptance.</div>
+</div></header>
 
-    <figure style="margin-top:28px;">
-      <img src="anim_scatter.gif" alt="ABC population staying spread vs HHO collapsing, on the neutral landscape" style="width:100%;max-width:820px;border:1px solid var(--line);border-radius:10px;">
-      <figcaption>
-        <b>Mild vs. strong bias, animated.</b> On the neutral landscape f0 (where the objective
-        carries no information), ABC's population (left) stays well spread &mdash; reflecting only a
-        gentle central tendency &mdash; while a strongly biased algorithm such as HHO (right) collapses
-        almost to a single point. This contrast is the visual essence of the paper's finding: ABC is
-        only mildly structurally biased.
-      </figcaption>
-    </figure>
+<section id="overview"><div class="wrap">
+  <div class="kicker">Overview</div>
+  <h2>What is structural bias &mdash; and why it matters</h2>
+  <p class="lead">
+    <b>Structural bias</b> is the tendency of a population-based optimizer to favour
+    particular regions of the search space <i>regardless of the objective function</i> &mdash;
+    an artefact of the search operators themselves rather than of the problem being solved.
+  </p>
+  <p>
+    When an algorithm is structurally biased, its population is drawn toward a fixed region
+    (often the centre of the domain) even when nothing in the objective justifies it. This
+    quietly distorts benchmarking: an algorithm may appear strong simply because test functions
+    place their optima where the algorithm is already inclined to look. For a genuine black-box
+    optimizer &mdash; where the optimum could be anywhere &mdash; bias is therefore a liability.
+    A broader treatment of the topic appears in our survey,
+    <a class="inline" href="https://doi.org/10.1016/j.swevo.2024.101812">&ldquo;Structural bias in metaheuristic algorithms&rdquo; (Swarm and Evolutionary Computation, 2025)</a>.
+  </p>
+  <p>
+    The Artificial Bee Colony (ABC) algorithm has been applied across thousands of problems since
+    2005, yet its own structural bias had never been systematically characterised. This work fills
+    that gap.
+  </p>
+</div></section>
 
+<section id="intro"><div class="wrap">
+  <div class="kicker">Introducing Our Work</div>
+  <h2>Motivation</h2>
+  <p>
+    Most ABC research focuses on new variants and faster convergence; far less attention has gone to
+    the algorithm's intrinsic search behaviour &mdash; the very property that determines whether its
+    benchmark results are trustworthy. If ABC silently prefers certain regions, then comparisons built
+    on it may reward that inclination rather than true optimization ability.
+  </p>
+  <p>
+    We therefore ask a simple but consequential question: <b>does ABC have a structural bias, and if
+    so, how strong is it relative to other widely used metaheuristics?</b> Answering this requires
+    diagnostics that isolate operator behaviour from the landscape, and a like-for-like comparison
+    against a representative set of algorithms.
+  </p>
+  <figure>
+    <img src="anim_scatter.gif" alt="ABC population staying spread vs HHO collapsing on the neutral landscape">
+    <figcaption>
+      <b>Mild vs. strong bias, animated.</b> On the neutral landscape f0 (which returns random fitness,
+      carrying no information), ABC's population (left) stays well spread, while a strongly biased
+      algorithm such as HHO (right) collapses almost to a single point. This contrast is the essence of
+      the paper's finding: ABC is only <i>mildly</i> structurally biased.
+    </figcaption>
+  </figure>
+</div></section>
+
+<section id="experiments"><div class="wrap">
+  <div class="kicker">Experiments</div>
+  <h2>Diagnostics &amp; process</h2>
+  <p>
+    We characterise ABC's bias with two complementary tools. The <b>BIAS toolbox</b> applies a battery
+    of statistical tests to the distribution of final solutions across many independent runs on f0. The
+    <b>Generalized Signature Test (GST)</b> measures population concentration geometrically, tracking the
+    fraction of empty cells (the Signature Factor, &eta;) as the search proceeds and locating the
+    population's centre of mass. Running on f0 ensures any detected structure comes from the operators,
+    not the objective. ABC is benchmarked against GA, PSO, DE, WOA, GWO, HHO, and Random Search (RS).
+  </p>
+  <figure>
+    <img src="anim_ssf.gif" alt="Signature Factor over iterations for all algorithms (real runs)">
+    <figcaption>
+      <b>How quickly bias appears.</b> The Signature Factor (&eta;) over iterations at D&nbsp;=&nbsp;10,
+      from real runs of every algorithm. HHO, WOA, and GWO saturate near &eta;&nbsp;&asymp;&nbsp;1
+      (strong bias); PSO and GA rise moderately; <b>ABC stays low, alongside DE and Random Search</b> &mdash;
+      the signature of minor bias.
+    </figcaption>
+  </figure>
+  <figure>
+    <img src="multiscatter.png" alt="Final population of five algorithms on f0, showing the bias spectrum">
+    <figcaption>
+      <b>The bias spectrum.</b> Final populations on f0 (D&nbsp;=&nbsp;2). ABC and DE remain spread (mild),
+      PSO clusters loosely (moderate), GWO contracts tightly, and HHO collapses to essentially one point
+      (extreme). Bias increases from left to right.
+    </figcaption>
+  </figure>
+  <p>
+    To connect the measured bias to <i>performance</i>, a Center-Offset experiment places the optimum at
+    five locations across the domain under constrained budgets, with all locations starting from the same
+    initial population.
+  </p>
+  <div class="twocol">
     <figure>
-      <img src="anim_ssf.gif" alt="Signature Factor rising over iterations for each algorithm" style="width:100%;max-width:760px;border:1px solid var(--line);border-radius:10px;">
-      <figcaption>
-        <b>How quickly bias appears.</b> The Signature Factor (&eta;) over iterations at D&nbsp;=&nbsp;10.
-        HHO, WOA, and GWO saturate near &eta;&nbsp;&asymp;&nbsp;1 (strong bias); PSO and GA rise moderately;
-        <b>ABC stays low, close to DE and Random Search</b> &mdash; confirming its minor bias. All curves
-        are computed from real algorithm runs on f0.
-      </figcaption>
-    </figure>
-  </section>
-
-  <section id="results">
-    <h2>Performance Implications of the Bias</h2>
-    <p>
-      To connect the measured bias to optimization behaviour, a Center-Offset experiment
-      places the optimum at five locations across the domain under several constrained
-      budgets. ABC's accuracy degrades <b>monotonically and symmetrically</b> with the
-      optimum's distance from the center &mdash; the direct performance signature of a
-      mild center-directed bias, which gradually washes out as the budget grows.
-    </p>
-    <figure>
-      <img src="page_bar.png" alt="Median best objective value vs optimum location, across budgets">
-      <figcaption>
-        Median best objective value attained by ABC as the optimum location
-        <i>c</i>&nbsp;=&nbsp;(c,&hellip;,c) is varied across [0,100]<sup>30</sup>, shown for
-        four budgets (log scale). At every budget the profile forms a symmetric U-shape
-        with its minimum at the center (c&nbsp;=&nbsp;50).
-      </figcaption>
+      <img src="page_bar.png" alt="Median best objective vs optimum location across budgets">
+      <figcaption><b>Median best objective</b> vs. optimum location, across four budgets (log scale). A
+        symmetric U-shape forms at every budget, minimised at the centre (c&nbsp;=&nbsp;50).</figcaption>
     </figure>
     <figure>
-      <img src="conv_curve.png" alt="Convergence curves by optimum location" style="width:100%;max-width:720px;border:1px solid var(--line);border-radius:10px;">
-      <figcaption>
-        Convergence (mean best-so-far, log scale) for each optimum location. The central
-        optimum (c&nbsp;=&nbsp;50) converges fastest and deepest; the symmetric interior pair
-        (c&nbsp;=&nbsp;25,&nbsp;75) tracks together in the middle; the corners
-        (c&nbsp;=&nbsp;0,&nbsp;100) converge slowest &mdash; the distance-from-centre ordering
-        predicted by a center bias.
-      </figcaption>
+      <img src="conv_norm.png" alt="Normalized convergence, all curves start at 1.0">
+      <figcaption><b>Normalized convergence</b> (each curve divided by its own initial value, so all start
+        at 1.0 &mdash; confirming the shared initial population). Central optima reduce error fastest;
+        corner optima slowest.</figcaption>
     </figure>
-  </section>
+  </div>
+</div></section>
 
-  <section id="bibtex">
-    <h2>BibTeX</h2>
-    <pre>@article{rajwar_abc_structural_bias,
+<section id="conclusion"><div class="wrap">
+  <div class="kicker">Conclusion</div>
+  <h2>What we found</h2>
+  <ol class="findings-wrap"><ul class="findings">
+    <li><b>ABC is only mildly biased</b> toward the centre, ranking second &mdash; just behind Differential Evolution &mdash; among eight algorithms in structural neutrality.</li>
+    <li><b>The bias appears within the first ~10 iterations</b> and then stabilises; population size and the limit parameter barely affect it, while the perturbation range &phi; dominates.</li>
+    <li><b>Both diagnostics agree once reconciled:</b> ABC's coordinate-wise update is centroid-attracting, producing centre clustering (GST) and mild discretization (BIAS toolbox) as two facets of one mechanism.</li>
+    <li><b>The bias has a measurable but modest performance cost:</b> under a constrained budget ABC favours central optima over boundary ones, an effect that fades as the budget grows.</li>
+  </ul></ol>
+  <p>
+    In short, ABC is a comparatively well-behaved algorithm: its structural bias is real but minor, and
+    far smaller than that of several popular swarm methods. This supports its continued use while
+    flagging the budgets and problem placements where even a mild bias can matter.
+  </p>
+</div></section>
+
+<section id="bibtex"><div class="wrap">
+  <div class="kicker">BibTeX</div>
+  <h2>Citation</h2>
+  <p>If this work or its code is useful in your research, please cite:</p>
+  <pre>@article{rajwar_abc_structural_bias,
   title   = {Investigating Structural Bias in the Artificial Bee
              Colony Algorithm: A Systematic Analysis},
   author  = {Rajwar, Kanchan},
@@ -161,8 +232,8 @@
   year    = {2026},
   note    = {Under review; citation to be updated on acceptance}
 }</pre>
-    <p style="margin-top:18px;">Methodology reference (Generalized Signature Test):</p>
-    <pre>@article{rajwar2024gst,
+  <p style="margin-top:18px;">Methodology references (Generalized Signature Test; structural-bias survey):</p>
+  <pre>@article{rajwar2024gst,
   title   = {Uncovering structural bias in population-based optimization
              algorithms: A theoretical and simulation-based analysis of
              the Generalized Signature Test},
@@ -170,18 +241,24 @@
   journal = {Expert Systems with Applications},
   volume  = {240}, pages = {122332}, year = {2024},
   doi     = {10.1016/j.eswa.2023.122332}
+}
+
+@article{rajwar2025survey,
+  title   = {Structural bias in metaheuristic algorithms: Insights,
+             open problems, and future prospects},
+  author  = {Rajwar, Kanchan and Deep, Kusum},
+  journal = {Swarm and Evolutionary Computation},
+  volume  = {92}, pages = {101812}, year = {2025},
+  doi     = {10.1016/j.swevo.2024.101812}
 }</pre>
-  </section>
+</div></section>
 
-  <footer>
-    <p>
-      <b>Contact:</b> Kanchan Rajwar &mdash;
-      <a class="inline" href="mailto:krajwar@ma.iitr.ac.in">krajwar@ma.iitr.ac.in</a><br>
-      Code and reproducibility:
-      <a class="inline" href="https://github.com/kanchan999/SB_ABC">github.com/kanchan999/SB_ABC</a>
-    </p>
-  </footer>
+<footer><div class="wrap">
+  <b>Contact:</b> Kanchan Rajwar &mdash;
+  <a class="inline" href="mailto:krajwar@ma.iitr.ac.in">krajwar@ma.iitr.ac.in</a><br>
+  Code &amp; reproducibility:
+  <a class="inline" href="https://github.com/kanchan999/SB_ABC">github.com/kanchan999/SB_ABC</a>
+</div></footer>
 
-</div>
 </body>
 </html>
