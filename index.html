@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="First systematic analysis of structural bias in the Artificial Bee Colony (ABC) algorithm using the BIAS toolbox and the Generalized Signature Test.">
+<title>Structural Bias in the Artificial Bee Colony Algorithm</title>
+<style>
+  :root{
+    --ink:#1a1a1a; --muted:#5b6470; --line:#e6e8eb; --accent:#b5462f;
+    --accent-soft:#fbeeea; --bg:#ffffff; --card:#fafbfc; --max:880px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0; background:var(--bg); color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;
+    line-height:1.65; font-size:17px;
+  }
+  .wrap{max-width:var(--max); margin:0 auto; padding:0 22px;}
+  header.hero{padding:64px 0 36px; border-bottom:1px solid var(--line);}
+  .badge{display:inline-block; font-size:13px; letter-spacing:.04em; text-transform:uppercase;
+    color:var(--accent); background:var(--accent-soft); padding:5px 12px; border-radius:999px; font-weight:600;}
+  h1{font-size:34px; line-height:1.25; margin:18px 0 10px; font-weight:700; letter-spacing:-0.01em;}
+  .authors{font-size:17px; color:var(--ink); margin:8px 0 2px;}
+  .affil{font-size:15px; color:var(--muted); margin:0 0 22px;}
+  .links{display:flex; flex-wrap:wrap; gap:10px; margin-top:18px;}
+  .links a{
+    display:inline-flex; align-items:center; gap:7px; text-decoration:none;
+    border:1px solid var(--line); background:var(--card); color:var(--ink);
+    padding:9px 16px; border-radius:9px; font-size:15px; font-weight:560; transition:.15s;
+  }
+  .links a:hover{border-color:var(--accent); color:var(--accent); transform:translateY(-1px);}
+  section{padding:40px 0; border-bottom:1px solid var(--line);}
+  h2{font-size:23px; margin:0 0 16px; font-weight:700; letter-spacing:-0.01em;}
+  p{margin:0 0 16px; color:#23282e;}
+  .lead{font-size:18.5px;}
+  ul.findings{list-style:none; padding:0; margin:18px 0;}
+  ul.findings li{
+    position:relative; padding:14px 16px 14px 46px; margin-bottom:12px;
+    background:var(--card); border:1px solid var(--line); border-radius:10px;
+  }
+  ul.findings li b{color:var(--accent);}
+  ul.findings li::before{
+    content:""; position:absolute; left:18px; top:20px; width:9px; height:9px;
+    background:var(--accent); border-radius:50%;
+  }
+  figure{margin:24px 0; text-align:center;}
+  figure img{max-width:100%; height:auto; border:1px solid var(--line); border-radius:10px;}
+  figcaption{font-size:14px; color:var(--muted); margin-top:10px; text-align:left;}
+  pre{
+    background:#1e2228; color:#e8eaed; padding:18px 20px; border-radius:10px;
+    overflow-x:auto; font-size:13.5px; line-height:1.55;
+    font-family:ui-monospace,SFMono-Regular,Menlo,monospace;
+  }
+  .note{font-size:14.5px; color:var(--muted); background:var(--accent-soft);
+    border-left:3px solid var(--accent); padding:12px 16px; border-radius:0 8px 8px 0; margin:18px 0;}
+  footer{padding:34px 0 60px; color:var(--muted); font-size:14.5px;}
+  a.inline{color:var(--accent); text-decoration:none; border-bottom:1px solid var(--accent-soft);}
+  a.inline:hover{border-bottom-color:var(--accent);}
+  @media(max-width:600px){ h1{font-size:27px;} body{font-size:16px;} header.hero{padding:44px 0 28px;} }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="hero">
+    <span class="badge">Structural Bias &middot; Metaheuristics</span>
+    <h1>Investigating Structural Bias in the Artificial&nbsp;Bee&nbsp;Colony Algorithm: A Systematic Analysis</h1>
+    <p class="authors">Kanchan Rajwar</p>
+    <p class="affil">Department of Mathematics, Indian Institute of Technology Roorkee, India</p>
+    <div class="links">
+      <a href="PAPER_PDF_URL">&#128196; Paper (PDF)</a>
+      <a href="https://github.com/kanchan999/SB_ABC">&#128187; Code</a>
+      <a href="#bibtex">&#10078; BibTeX</a>
+    </div>
+    <div class="note" style="margin-top:24px;">Manuscript currently under review. Links and citation will be updated on acceptance.</div>
+  </header>
+
+  <section id="summary">
+    <h2>Overview</h2>
+    <p class="lead">
+      Since its introduction in 2005, the Artificial Bee Colony (ABC) algorithm has been
+      applied across countless optimization problems &mdash; yet its intrinsic search
+      dynamics have rarely been examined. This work provides the <b>first systematic
+      analysis of structural bias in ABC</b>, the tendency of an algorithm to favour
+      particular regions of the search space regardless of the objective.
+    </p>
+    <p>
+      Using two complementary diagnostics &mdash; the <b>BIAS toolbox</b> and the
+      <b>Generalized Signature Test (GST)</b> &mdash; we answer five research questions
+      about ABC's internal behaviour and benchmark it against GA, PSO, DE, and the
+      contemporary metaheuristics WOA, GWO, and HHO.
+    </p>
+    <ul class="findings">
+      <li><b>ABC shows only a minor center bias</b>, ranking second &mdash; just behind Differential Evolution &mdash; among eight algorithms in structural neutrality.</li>
+      <li><b>The bias emerges within the first ~10 iterations</b> and remains stable thereafter, driven largely by the scout-bee mechanism.</li>
+      <li><b>The two diagnostics agree once reconciled:</b> ABC's coordinate-wise update is centroid-attracting, producing center clustering (GST) and mild discretization (BIAS toolbox) as two facets of one phenomenon.</li>
+      <li><b>The perturbation range &phi; is the dominant control parameter;</b> population size and the limit parameter have negligible effect.</li>
+    </ul>
+  </section>
+
+  <section id="results">
+    <h2>Performance Implications of the Bias</h2>
+    <p>
+      To connect the measured bias to optimization behaviour, a Center-Offset experiment
+      places the optimum at five locations across the domain under several constrained
+      budgets. ABC's accuracy degrades <b>monotonically and symmetrically</b> with the
+      optimum's distance from the center &mdash; the direct performance signature of a
+      mild center-directed bias, which gradually washes out as the budget grows.
+    </p>
+    <figure>
+      <img src="page_bar.png" alt="Median best objective value vs optimum location, across budgets">
+      <figcaption>
+        Median best objective value attained by ABC as the optimum location
+        <i>c</i>&nbsp;=&nbsp;(c,&hellip;,c) is varied across [0,100]<sup>30</sup>, shown for
+        four budgets (log scale). At every budget the profile forms a symmetric U-shape
+        with its minimum at the center (c&nbsp;=&nbsp;50).
+      </figcaption>
+    </figure>
+  </section>
+
+  <section id="bibtex">
+    <h2>BibTeX</h2>
+    <pre>@article{rajwar_abc_structural_bias,
+  title   = {Investigating Structural Bias in the Artificial Bee
+             Colony Algorithm: A Systematic Analysis},
+  author  = {Rajwar, Kanchan},
+  journal = {Applied Soft Computing},
+  year    = {2026},
+  note    = {Under review; citation to be updated on acceptance}
+}</pre>
+    <p style="margin-top:18px;">Methodology reference (Generalized Signature Test):</p>
+    <pre>@article{rajwar2024gst,
+  title   = {Uncovering structural bias in population-based optimization
+             algorithms: A theoretical and simulation-based analysis of
+             the Generalized Signature Test},
+  author  = {Rajwar, Kanchan and Deep, Kusum},
+  journal = {Expert Systems with Applications},
+  volume  = {240}, pages = {122332}, year = {2024},
+  doi     = {10.1016/j.eswa.2023.122332}
+}</pre>
+  </section>
+
+  <footer>
+    <p>
+      <b>Contact:</b> Kanchan Rajwar &mdash;
+      <a class="inline" href="mailto:krajwar@ma.iitr.ac.in">krajwar@ma.iitr.ac.in</a><br>
+      Code and reproducibility:
+      <a class="inline" href="https://github.com/kanchan999/SB_ABC">github.com/kanchan999/SB_ABC</a>
+    </p>
+  </footer>
+
+</div>
+</body>
+</html>
