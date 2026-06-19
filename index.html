@@ -160,12 +160,13 @@
     against a representative set of algorithms.
   </p>
   <figure>
-    <img src="anim_scatter.gif" alt="ABC population staying spread vs HHO collapsing on the neutral landscape">
+    <img src="anim_abc_hho.gif" alt="ABC population staying spread vs HHO collapsing, at N=10000">
     <figcaption>
-      <b>Mild vs. strong bias, animated.</b> On the neutral landscape f0 (which returns random fitness,
-      carrying no information), ABC's population (left) stays well spread, while a strongly biased
-      algorithm such as HHO (right) collapses almost to a single point. This contrast is the essence of
-      the paper's finding: ABC is only <i>mildly</i> structurally biased.
+      <b>Mild vs. strong bias, animated.</b> Populations of 10,000 individuals evolving on the neutral
+      landscape f0 (which returns random fitness, carrying no information). ABC (left) stays spread
+      across the whole domain, while a strongly biased algorithm such as HHO (right) collapses almost to
+      a single point. This contrast is the visual essence of the paper's finding: ABC is only
+      <i>mildly</i> structurally biased. (2,500 sampled points shown.)
     </figcaption>
   </figure>
 </div></section>
@@ -184,18 +185,20 @@
   <figure>
     <img src="anim_ssf.gif" alt="Signature Factor over iterations for all algorithms (real runs)">
     <figcaption>
-      <b>How quickly bias appears.</b> The Signature Factor (&eta;) over iterations at D&nbsp;=&nbsp;10,
-      from real runs of every algorithm. HHO, WOA, and GWO saturate near &eta;&nbsp;&asymp;&nbsp;1
-      (strong bias); PSO and GA rise moderately; <b>ABC stays low, alongside DE and Random Search</b> &mdash;
-      the signature of minor bias.
+      <b>How quickly bias appears.</b> The Signature Factor (&eta;) over iterations. RS and DE remain
+      lowest, with <b>ABC just above them</b>, then GA and PSO; GWO, WOA, and HHO saturate near
+      &eta;&nbsp;&asymp;&nbsp;1 (strong bias). ABC's position just above DE is the signature of its
+      minor bias. All curves are computed from real algorithm runs at D&nbsp;=&nbsp;2, N&nbsp;=&nbsp;100; the ABC,
+      GA, PSO, DE, and RS results come from the authors' own GST code.
     </figcaption>
   </figure>
   <figure>
-    <img src="multiscatter.png" alt="Final population of five algorithms on f0, showing the bias spectrum">
+    <img src="anim_all_scatter.gif" alt="Animated populations of all eight algorithms at N=10000">
     <figcaption>
-      <b>The bias spectrum.</b> Final populations on f0 (D&nbsp;=&nbsp;2). ABC and DE remain spread (mild),
-      PSO clusters loosely (moderate), GWO contracts tightly, and HHO collapses to essentially one point
-      (extreme). Bias increases from left to right.
+      <b>The bias spectrum across all algorithms.</b> Populations of 10,000 individuals on f0, ordered
+      from least to most biased. RS, DE, ABC, and GA stay well spread; PSO forms a visible cluster
+      (moderate bias); GWO, WOA, and HHO collapse toward a point or line (strong bias). ABC sits firmly
+      in the low-bias group. (2,200 sampled points shown per panel.)
     </figcaption>
   </figure>
   <p>
